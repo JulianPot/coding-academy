@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
     matchDate,
     stadiumName,
     element1,
-    element2;
+    element2,
+    eventID;
 
   // season id does work just for season 20/21 - wrong value of other ids
   let season = document.querySelector(`#seasons`);
@@ -27,16 +28,18 @@ document.addEventListener("DOMContentLoaded", function () {
       let match = data.schedules;
 
       match.forEach((v, i) => {
+        // data from json
         team1 = v.sport_event.competitors[0].name;
         team2 = v.sport_event.competitors[1].name;
         score1 = v.sport_event_status.home_score;
         score2 = v.sport_event_status.away_score;
         matchDate = v.sport_event.start_time;
         stadiumName = v.sport_event.venue.city_name;
+        eventID = v.sport_event.id;
 
         if (score1 == undefined) {
           html = `
-      <tr>
+      <tr id="${eventID}" class = "rows">
         <td>${team1}</td>
         <td>${team2}</td>
         <td>${v.sport_event_status.status.toUpperCase()}</td>
@@ -46,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </tr>`;
         } else {
           html = `    
-      <tr>
+      <tr id="${eventID}" class="rows">
         <td id = "team1-${i}">${team1}</td>
         <td id = "team2-${i}">${team2}</td>
         <td>${score1} - ${score2}</td>
@@ -77,6 +80,33 @@ document.addEventListener("DOMContentLoaded", function () {
           element2 = document.getElementById(`team2-${i}`);
           element2.classList.add(`draw`);
         }
+      });
+
+      let rows = document.querySelectorAll(`.rows`);
+
+      rows.forEach((v) => {
+        v.addEventListener(`click`, function () {
+          console.log(v.id);
+
+          let request2 = new Request(
+            `https://api.sportradar.us/soccer/trial/v4/en/sport_events/${v.id}/timeline.json?api_key=eby7tmh33kprfk87zwh95zkx`
+          );
+
+          fetch(request2)
+            .then((response) => response.json())
+            .then((data) => {
+              // console.log(data.timeline);
+              data.timeline.forEach((v) => {
+                firstRow.insertAdjacentHTML(
+                  "beforebegin",
+                  `<td>${v.type.replace("_", " ")}</td><td>${v.time.slice(
+                    11,
+                    19
+                  )}</td>`
+                );
+              });
+            });
+        });
       });
     });
 });

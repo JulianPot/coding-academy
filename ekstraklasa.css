@@ -1,18 +1,48 @@
+body {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 15px;
+  background-color: rgba(144, 144, 155, 0.212);
+}
+
+table {
+  border-collapse: collapse;
+  margin: auto;
+}
+
 td {
-  border: 1px solid black;
-  width: 200px;
+  border: 2px solid black;
+  width: 220px;
   height: 50px;
   text-align: center;
 }
 
+#firstRow {
+  background-color: rgba(100, 100, 100, 0.425);
+  font-weight: bold;
+}
+
 .winner {
-  background-color: green;
+  background-color: rgba(12, 107, 12, 0.76);
 }
 
 .loser {
-  background-color: red;
+  background-color: rgba(148, 29, 29, 0.849);
 }
 
 .draw {
-  background-color: orange;
+  background-color: rgb(248, 188, 77);
+}
+
+select {
+  width: 450px;
+  height: 40px;
+  text-align: center;
+  margin: 20px;
+  margin-left: 110px;
+  font-weight: bold;
+  font-size: 25px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: rgba(100, 100, 100, 0.425);
 }
