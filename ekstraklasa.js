@@ -10,8 +10,15 @@ document.addEventListener("DOMContentLoaded", function () {
     element1,
     element2;
 
+  // season id does work just for season 20/21 - wrong value of other ids
+  let season = document.querySelector(`#seasons`);
+
+  season.onchange = function () {
+    document.location.reload();
+  };
+
   let request = new Request(
-    "https://api.sportradar.us/soccer/trial/v4/en/seasons/sr:season:77453/schedules.json?api_key=eby7tmh33kprfk87zwh95zkx"
+    `https://api.sportradar.us/soccer/trial/v4/en/seasons/${season.value}/schedules.json?api_key=eby7tmh33kprfk87zwh95zkx`
   );
 
   fetch(request)
@@ -33,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <td>${team1}</td>
         <td>${team2}</td>
         <td>${v.sport_event_status.status.toUpperCase()}</td>
-        <td>${matchDate}</td>
+        <td>${matchDate.slice(0, 10)}</td>
         <td> - </td>
         <td>${stadiumName}</td>
       </tr>`;
@@ -43,8 +50,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <td id = "team1-${i}">${team1}</td>
         <td id = "team2-${i}">${team2}</td>
         <td>${score1} - ${score2}</td>
-        <td>${matchDate}</td>
-        <td>${v.sport_event_status.period_scores[1].home_score} - ${v.sport_event_status.period_scores[0].away_score}</td>
+        <td>${matchDate.slice(0, 10)}</td>
+        <td>${v.sport_event_status.period_scores[1].home_score} - ${
+            v.sport_event_status.period_scores[0].away_score
+          }</td>
         <td>${stadiumName}</td>
       </tr>`;
         }
