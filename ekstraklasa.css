@@ -46,3 +46,7 @@ select {
   border-radius: 5px;
   background-color: rgba(100, 100, 100, 0.425);
 }
+
+#timeline {
+  margin-bottom: 40px;
+}

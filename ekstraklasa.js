@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   let firstRow = document.querySelector("#firstRow");
+  let timelineDiv = document.querySelector("#timeline");
   let team1,
     team2,
     score1,
@@ -86,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       rows.forEach((v) => {
         v.addEventListener(`click`, function () {
-          console.log(v.id);
+          timelineDiv.innerHTML = "";
 
           let request2 = new Request(
             `https://api.sportradar.us/soccer/trial/v4/en/sport_events/${v.id}/timeline.json?api_key=eby7tmh33kprfk87zwh95zkx`
@@ -95,15 +96,15 @@ document.addEventListener("DOMContentLoaded", function () {
           fetch(request2)
             .then((response) => response.json())
             .then((data) => {
-              // console.log(data.timeline);
               data.timeline.forEach((v) => {
-                firstRow.insertAdjacentHTML(
-                  "beforebegin",
-                  `<td>${v.type.replace("_", " ")}</td><td>${v.time.slice(
-                    11,
-                    19
-                  )}</td>`
+                timelineDiv.insertAdjacentHTML(
+                  "afterbegin",
+                  `<tr>
+                  <td class="timeline">${v.type.replaceAll("_", " ")}</td>
+                  <td class="timeline">${v.time.slice(11, 19)}</td>
+                  </tr>`
                 );
+                scrollTo(0, 0);
               });
             });
         });
